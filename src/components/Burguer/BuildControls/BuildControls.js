@@ -10,11 +10,15 @@ const controls = [
     {label: 'Meat', type: 'meat'}
 ];
 
+
+
 const BuildControls = props => {
     return(
         <div className={classes.BuildControls}>
            {controls.map(item => {
-               return <BuildControl label={item.label} type={item.type} />
+               return <BuildControl label={item.label} 
+               added={() => props.ingredientAdded(item.type)}
+               remove = {() => props.ingredientRemoved(item.type)} />
            })}
         </div>
     )
