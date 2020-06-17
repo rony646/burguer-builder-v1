@@ -15,14 +15,13 @@ const OrderSummary = props => {
     .map(igKey => 
         <li key={igKey}>
             <span style={{textTransform: "capitalize"}}>
-            {igKey} : {props.ig[igKey]}
+                {igKey} : {props.ig[igKey]}
             </span>
         </li>)
 
     return(
         
         <Auxiliary>
-            {console.log(ingredientSummary)}
             <h3>Your order: </h3>
             <ul>
                 {ingredientSummary}

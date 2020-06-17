@@ -23,8 +23,23 @@ class  BurguerBuilder extends Component {
             meat: 0
         },
 
-        totalPrice:  3
+        totalPrice:  3,
+        purchaseable: false,
+        purchasing: false
     }
+
+    updatePurchaseState (ig) {
+        const ingredients = ig
+
+        const sum = Object.keys(ingredients)
+        .map(key => {
+            return ingredients[key];
+        }).reduce((sum, el) => {
+            return sum + el;
+        }, 0);
+
+        this.setState({purchaseable: sum > 0})
+    };
 
     addIngredientHandler = type => {
         const oldCount = this.state.ingredients[type];
@@ -39,8 +54,8 @@ class  BurguerBuilder extends Component {
         let oldPrice = this.state.totalPrice;
         let newPrice = oldPrice + priceAdd;
 
-        
         this.setState({ingredients: newIg, totalPrice: newPrice})
+        this.updatePurchaseState(newIg)
     }
 
 
@@ -62,8 +77,12 @@ class  BurguerBuilder extends Component {
 
         
         this.setState({ingredients: newIg, totalPrice: newPrice})
+        this.updatePurchaseState(newIg)
     }
 
+    purchasingHandler = () => {
+        this.setState({purchasing: true});
+    }
 
     
 
@@ -76,10 +95,10 @@ class  BurguerBuilder extends Component {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
 
-        {console.log(this.state.totalPrice)}
         return(
             <Auxiliary>
-                <Modal>
+                {console.log('Finalizando: ', this.state.purchasing)}
+                <Modal show={this.state.purchasing}>
                     <OrderSummary ig={this.state.ingredients} />
                 </Modal>
                 <Burguer ingredients={this.state.ingredients} />
@@ -87,8 +106,9 @@ class  BurguerBuilder extends Component {
                  ingredientAdded={this.addIngredientHandler}
                  ingredientRemoved={this.removeIngredientHandler}
                  disabled={disabledInfo}
-                 price={this.state.totalPrice}/>
-                
+                 price={this.state.totalPrice}
+                 purchaseable={this.state.purchaseable}
+                 purchasing={this.purchasingHandler}/>
             </Auxiliary>
         );
     }
