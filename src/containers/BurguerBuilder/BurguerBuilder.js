@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary'
 import Burguer from '../../components/Burguer/Burguer'
 import BuildControls from '../../components/Burguer/BuildControls/BuildControls'
+import Modal from '../../components/UI/Modal/Modal'
+import OrderSummary from '../../components/OrderSummary/OrderSummary'
 
 const INGREDIENTS_PRICE =  {
     salad: 0.5,
@@ -44,6 +46,9 @@ class  BurguerBuilder extends Component {
 
     removeIngredientHandler = type => {
         const oldCount = this.state.ingredients[type];
+        if(oldCount <= 0) {
+            return;
+        }
         const newCount = oldCount - 1
         const newIg = {
             ...this.state.ingredients
@@ -63,13 +68,26 @@ class  BurguerBuilder extends Component {
     
 
     render() {
+        const disabledInfo = {
+            ...this.state.ingredients
+        }
+
+        for(let key in disabledInfo) {
+            disabledInfo[key] = disabledInfo[key] <= 0
+        }
+
         {console.log(this.state.totalPrice)}
         return(
             <Auxiliary>
+                <Modal>
+                    <OrderSummary ig={this.state.ingredients} />
+                </Modal>
                 <Burguer ingredients={this.state.ingredients} />
                 <BuildControls
                  ingredientAdded={this.addIngredientHandler}
-                 ingredientRemoved={this.removeIngredientHandler}/>
+                 ingredientRemoved={this.removeIngredientHandler}
+                 disabled={disabledInfo}
+                 price={this.state.totalPrice}/>
                 
             </Auxiliary>
         );
