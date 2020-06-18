@@ -88,6 +88,10 @@ class  BurguerBuilder extends Component {
         this.setState({purchasing: false})
     }
 
+    purchaseContinueHandler = () => {
+        alert('You continued!')
+    }
+
     
 
     render() {
@@ -103,16 +107,22 @@ class  BurguerBuilder extends Component {
             <Auxiliary>
                 {console.log('Finalizando: ', this.state.purchasing)}
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-                    <OrderSummary ig={this.state.ingredients} />
+                    <OrderSummary
+                        ig={this.state.ingredients} 
+                        cancelled={this.purchaseCancelHandler}
+                        continue={this.purchaseContinueHandler}
+                        price={this.state.totalPrice.toFixed(2)}
+                    ></OrderSummary>
                 </Modal>
                 <Burguer ingredients={this.state.ingredients} />
                 <BuildControls
-                 ingredientAdded={this.addIngredientHandler}
-                 ingredientRemoved={this.removeIngredientHandler}
-                 disabled={disabledInfo}
-                 price={this.state.totalPrice}
-                 purchaseable={this.state.purchaseable}
-                 purchasing={this.purchasingHandler}/>
+                    ingredientAdded={this.addIngredientHandler}
+                    ingredientRemoved={this.removeIngredientHandler}
+                    disabled={disabledInfo}
+                    price={this.state.totalPrice}
+                    purchaseable={this.state.purchaseable}
+                    purchasing={this.purchasingHandler}
+                 />
             </Auxiliary>
         );
     }

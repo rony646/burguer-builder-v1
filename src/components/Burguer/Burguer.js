@@ -22,7 +22,7 @@ const Burguer = props => {
     return(
         <div className={classes.Burguer}>
             <BurguerIngredient  type="bread-top"/>
-            {transformedIngredients}
+                {transformedIngredients}
             <BurguerIngredient  type="bread-bottom"/>
         </div>
     )
