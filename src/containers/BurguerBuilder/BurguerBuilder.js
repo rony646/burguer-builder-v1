@@ -105,7 +105,6 @@ class  BurguerBuilder extends Component {
 
         return(
             <Auxiliary>
-                {console.log('Finalizando: ', this.state.purchasing)}
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
                     <OrderSummary
                         ig={this.state.ingredients} 
