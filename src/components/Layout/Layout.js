@@ -7,7 +7,7 @@ import classes from './Layout.css'
 
 class Layout extends Component {
     state = {
-        show: true
+        show: false
     };
 
     sideDrawerClose = () => {
