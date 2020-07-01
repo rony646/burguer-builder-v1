@@ -95,7 +95,7 @@ class  BurguerBuilder extends Component {
             ingridientes: this.state.ingredients,
             price: this.state.totalPrice,
             customer: {
-                name: 'Rony Silva',
+                name: 'Rony Peterson ',
                 address: {
                     street: 'Rua teste',
                     number: '899',
