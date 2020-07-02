@@ -19,17 +19,16 @@ const INGREDIENTS_PRICE =  {
 class  BurguerBuilder extends Component {
 
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0
-        },
-
+        ingredients: null,
         totalPrice:  3,
         purchaseable: false,
         purchasing: false,
         loading: false
+    }
+
+    componentDidMount() {
+        axios.get('/ingredients.json')
+            .then(response => this.setState({ingredients: response.data}))
     }
 
     updatePurchaseState (ig) {
@@ -128,32 +127,42 @@ class  BurguerBuilder extends Component {
         for(let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
+        let orderSummary = null
 
-        let orderSummary = <OrderSummary
-                ig={this.state.ingredients} 
-                cancelled={this.purchaseCancelHandler}
-                continue={this.purchaseContinueHandler}
-                price={this.state.totalPrice.toFixed(2)}>
-            </OrderSummary>
+        
+        let burguer = <Spinner />
 
         if(this.state.loading) {
             orderSummary = <Spinner />
         }
 
+
+        if(this.state.ingredients) {
+            burguer = <Auxiliary>
+                        <Burguer ingredients={this.state.ingredients} />
+                        <BuildControls
+                            ingredientAdded={this.addIngredientHandler}
+                            ingredientRemoved={this.removeIngredientHandler}
+                            disabled={disabledInfo}
+                            price={this.state.totalPrice}
+                            purchaseable={this.state.purchaseable}
+                            purchasing={this.purchasingHandler}
+                        />
+                      </Auxiliary>
+
+            orderSummary =  <OrderSummary
+                ig={this.state.ingredients} 
+                cancelled={this.purchaseCancelHandler}
+                continue={this.purchaseContinueHandler}
+                price={this.state.totalPrice.toFixed(2)}>
+            </OrderSummary>
+        }
         return(
             <Auxiliary>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
                     {orderSummary}
                 </Modal>
-                <Burguer ingredients={this.state.ingredients} />
-                <BuildControls
-                    ingredientAdded={this.addIngredientHandler}
-                    ingredientRemoved={this.removeIngredientHandler}
-                    disabled={disabledInfo}
-                    price={this.state.totalPrice}
-                    purchaseable={this.state.purchaseable}
-                    purchasing={this.purchasingHandler}
-                 />
+                {burguer}
             </Auxiliary>
         );
     }
