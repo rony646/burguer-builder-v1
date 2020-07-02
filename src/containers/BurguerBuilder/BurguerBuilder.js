@@ -23,12 +23,16 @@ class  BurguerBuilder extends Component {
         totalPrice:  3,
         purchaseable: false,
         purchasing: false,
-        loading: false
+        loading: false,
+        error: false
     }
 
     componentDidMount() {
         axios.get('/ingredients.json')
             .then(response => this.setState({ingredients: response.data}))
+            .catch(e => {
+                this.setState({error: true})
+            })
     }
 
     updatePurchaseState (ig) {
@@ -130,7 +134,9 @@ class  BurguerBuilder extends Component {
         let orderSummary = null
 
         
-        let burguer = <Spinner />
+        let burguer = this.state.error ? 
+                        <p style={{fontSize: '45' + 'px', textAlign: 'center'}}>Something is broken, please come back later</p>:
+                        <Spinner />
 
         if(this.state.loading) {
             orderSummary = <Spinner />
