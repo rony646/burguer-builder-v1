@@ -111,13 +111,15 @@ class  BurguerBuilder extends Component {
             },
             deliveryMethod: 'express'
         }
-        axios.post('/orders.json', order)
+            axios.post('/orders.json', order)
             .then(response =>  {
-                this.setState({loading: false, purchasing: false})
+               this.setState({ loading: false, purchasing: false })
             })
             .catch(e =>  {
                 this.setState({loding: false, purchasing: false})
             })
+
+        this.props.history.push('/checkout')
 
     }
 
@@ -135,7 +137,7 @@ class  BurguerBuilder extends Component {
 
         
         let burguer = this.state.error ? 
-                        <p style={{fontSize: '45' + 'px', textAlign: 'center'}}>Something is broken, please come back later</p>:
+                        <p style={{fontSize: '45px', textAlign: 'center'}}>Something is broken, please come back later</p>:
                         <Spinner />
 
         if(this.state.loading) {
