@@ -1,0 +1,18 @@
+.Container {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+
+}
+
+.CheckoutSummary {
+    width: 80%;
+    text-align: center;
+}
+
+@media (min-width: 600px) {
+    .CheckoutSummary {
+        width: 5000px;
+    }
+}
+
