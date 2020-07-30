@@ -28,11 +28,11 @@ class  BurguerBuilder extends Component {
     }
 
     componentDidMount() {
-        axios.get('/ingredients.json')
-            .then(response => this.setState({ingredients: response.data}))
-            .catch(e => {
-                this.setState({error: true})
-            })
+        // axios.get('/ingredients.json')
+        //     .then(response => this.setState({ingredients: response.data}))
+        //     .catch(e => {
+        //         this.setState({error: true})
+        //     })
     }
 
     updatePurchaseState (ig) {
