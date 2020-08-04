@@ -11,17 +11,11 @@ import axios from '../../axios-order'
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 
-const INGREDIENTS_PRICE =  {
-    salad: 0.5,
-    bacon: 0.65,
-    cheese: 0.6,
-    meat: 1
-}
+
 
 class  BurguerBuilder extends Component {
 
     state = {
-        totalPrice:  3,
         purchaseable: false,
         purchasing: false,
         loading: false,
@@ -49,44 +43,7 @@ class  BurguerBuilder extends Component {
         this.setState({purchaseable: sum > 0})
     };
 
-    addIngredientHandler = type => {
-        const oldCount = this.state.ingredients[type];
-        const newCount = oldCount + 1
-        const newIg = {
-            ...this.state.ingredients
-        }
-
-        newIg[type] = newCount;
-
-        let priceAdd = INGREDIENTS_PRICE[type];
-        let oldPrice = this.state.totalPrice;
-        let newPrice = oldPrice + priceAdd;
-
-        this.setState({ingredients: newIg, totalPrice: newPrice})
-        this.updatePurchaseState(newIg)
-    }
-
-
-    removeIngredientHandler = type => {
-        const oldCount = this.state.ingredients[type];
-        if(oldCount <= 0) {
-            return;
-        }
-        const newCount = oldCount - 1
-        const newIg = {
-            ...this.state.ingredients
-        }
-
-        newIg[type] = newCount;
-
-        let priceLess = INGREDIENTS_PRICE[type];
-        let oldPrice = this.state.totalPrice;
-        let newPrice = oldPrice - priceLess;
-
-        
-        this.setState({ingredients: newIg, totalPrice: newPrice})
-        this.updatePurchaseState(newIg)
-    }
+   
 
     purchasingHandler = () => {
         this.setState({purchasing: true});
@@ -144,7 +101,7 @@ class  BurguerBuilder extends Component {
                             ingredientAdded={this.props.onIngredientAdded}
                             ingredientRemoved={this.props.onIngredientRemoved}
                             disabled={disabledInfo}
-                            price={this.state.totalPrice}
+                            price={this.props.totalPrice}
                             purchaseable={this.state.purchaseable}
                             purchasing={this.purchasingHandler}
                         />
@@ -154,7 +111,7 @@ class  BurguerBuilder extends Component {
                 ig={this.props.ings} 
                 cancelled={this.purchaseCancelHandler}
                 continue={this.purchaseContinueHandler}
-                price={this.state.totalPrice.toFixed(2)}>
+                price={this.props.totalPrice.toFixed(2)}>
             </OrderSummary>
         }
         return(
@@ -171,7 +128,8 @@ class  BurguerBuilder extends Component {
 const mapStateToProps = state => {
     console.log('Monstrando estado', state)
    return {
-        ings: state.ingredients
+        ings: state.ingredients,
+        totalPrice: state.totalPrice
    };
 };
 
