@@ -4,7 +4,8 @@ const intialState ={
     ingredients: {
        salad: 0,
        bacon: 0,
-       meat: 0 
+       meat: 0,
+       cheese: 0
     },
     totalPrice: 4
 };
@@ -27,8 +28,9 @@ const reducer = (state = intialState, action) => {
                     [action.ingredientName]: state.ingredients[action.ingredientName] - 1
                 }
             };
-        default:
-            return state
+        default: {
+            return state    
+        }
     };
 };
 

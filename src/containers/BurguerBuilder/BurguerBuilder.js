@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions'
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary'
 import Burguer from '../../components/Burguer/Burguer'
 import BuildControls from '../../components/Burguer/BuildControls/BuildControls'
@@ -19,7 +21,6 @@ const INGREDIENTS_PRICE =  {
 class  BurguerBuilder extends Component {
 
     state = {
-        ingredients: null,
         totalPrice:  3,
         purchaseable: false,
         purchasing: false,
@@ -118,7 +119,7 @@ class  BurguerBuilder extends Component {
 
     render() {
         const disabledInfo = {
-            ...this.state.ingredients
+            ...this.props.ings
         }
 
         for(let key in disabledInfo) {
@@ -136,12 +137,12 @@ class  BurguerBuilder extends Component {
         }
 
 
-        if(this.state.ingredients) {
+        if(this.props.ings) {
             burguer = <Auxiliary>
-                        <Burguer ingredients={this.state.ingredients} />
+                        <Burguer ingredients={this.props.ings} />
                         <BuildControls
-                            ingredientAdded={this.addIngredientHandler}
-                            ingredientRemoved={this.removeIngredientHandler}
+                            ingredientAdded={this.props.onIngredientAdded}
+                            ingredientRemoved={this.props.onIngredientRemoved}
                             disabled={disabledInfo}
                             price={this.state.totalPrice}
                             purchaseable={this.state.purchaseable}
@@ -150,7 +151,7 @@ class  BurguerBuilder extends Component {
                       </Auxiliary>
 
             orderSummary =  <OrderSummary
-                ig={this.state.ingredients} 
+                ig={this.props.ings} 
                 cancelled={this.purchaseCancelHandler}
                 continue={this.purchaseContinueHandler}
                 price={this.state.totalPrice.toFixed(2)}>
@@ -167,4 +168,18 @@ class  BurguerBuilder extends Component {
     }
 }
 
-export default withErrorHandler(BurguerBuilder, axios) 
+const mapStateToProps = state => {
+    console.log('Monstrando estado', state)
+   return {
+        ings: state.ingredients
+   };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onIngredientAdded: (ingName) => dispatch({type: actions.ADD_INGREDIENT, ingredientName: ingName}),
+        onIngredientRemoved: (ingName) => dispatch({type: actions.REMOVE_INGREDIENT, ingredientName: ingName})
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurguerBuilder, axios)) 
