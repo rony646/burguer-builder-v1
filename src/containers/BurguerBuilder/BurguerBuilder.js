@@ -16,7 +16,6 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 class  BurguerBuilder extends Component {
 
     state = {
-        purchaseable: false,
         purchasing: false,
         loading: false,
         error: false
@@ -24,7 +23,7 @@ class  BurguerBuilder extends Component {
 
     componentDidMount() {
         // axios.get('/ingredients.json')
-        //     .then(response => this.setState({ingredients: response.data}))
+        //     .then(response => this.setState({ingredients: response.data})) // Getting ingredients from redux
         //     .catch(e => {
         //         this.setState({error: true})
         //     })
@@ -40,7 +39,7 @@ class  BurguerBuilder extends Component {
             return sum + el;
         }, 0);
 
-        this.setState({purchaseable: sum > 0})
+        return sum > 0;
     };
 
    
@@ -54,22 +53,8 @@ class  BurguerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-       
-
-        const queryParams = [];
-        for(let i in this.state.ingredients) {
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
-        }
-
-        queryParams.push('price=' + this.state.totalPrice)
-
-        const queryString = queryParams.join('&')
-
-        this.props.history.push({
-            pathname: '/checkout',
-            search: '?' + queryString
-        })
-
+    
+        this.props.history.push('/checkout')
     }
 
     
@@ -102,7 +87,7 @@ class  BurguerBuilder extends Component {
                             ingredientRemoved={this.props.onIngredientRemoved}
                             disabled={disabledInfo}
                             price={this.props.totalPrice}
-                            purchaseable={this.state.purchaseable}
+                            purchaseable={this.updatePurchaseState(this.props.ings)}
                             purchasing={this.purchasingHandler}
                         />
                       </Auxiliary>
