@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux'
-import * as actions from '../../store/actions'
+import * as actions from '../../store/actions/actionTypes'
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary'
 import Burguer from '../../components/Burguer/Burguer'
 import BuildControls from '../../components/Burguer/BuildControls/BuildControls'
