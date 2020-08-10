@@ -17,16 +17,10 @@ class  BurguerBuilder extends Component {
 
     state = {
         purchasing: false,
-        loading: false,
-        error: false
     }
 
     componentDidMount() {
-        // axios.get('/ingredients.json')
-        //     .then(response => this.setState({ingredients: response.data})) // Getting ingredients from redux
-        //     .catch(e => {
-        //         this.setState({error: true})
-        //     })
+        // 
     }
 
     updatePurchaseState (ig) {
@@ -74,9 +68,6 @@ class  BurguerBuilder extends Component {
                         <p style={{fontSize: '45px', textAlign: 'center'}}>Something is broken, please come back later</p>:
                         <Spinner />
 
-        if(this.state.loading) {
-            orderSummary = <Spinner />
-        }
 
 
         if(this.props.ings) {
