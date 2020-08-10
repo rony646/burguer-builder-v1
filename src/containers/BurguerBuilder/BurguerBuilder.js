@@ -20,7 +20,7 @@ class  BurguerBuilder extends Component {
     }
 
     componentDidMount() {
-        // 
+        this.props.onInitIngredients() // gettin from redux
     }
 
     updatePurchaseState (ig) {
@@ -64,7 +64,7 @@ class  BurguerBuilder extends Component {
         let orderSummary = null
 
         
-        let burguer = this.state.error ? 
+        let burguer = this.props.error ? 
                         <p style={{fontSize: '45px', textAlign: 'center'}}>Something is broken, please come back later</p>:
                         <Spinner />
 
@@ -105,14 +105,16 @@ const mapStateToProps = state => {
     console.log('Monstrando estado', state)
    return {
         ings: state.ingredients,
-        totalPrice: state.totalPrice
+        totalPrice: state.totalPrice,
+        error: state.error
    };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (ingName) => dispatch(buguerBuilderActions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName) => dispatch(buguerBuilderActions.removeIngredient(ingName))
+        onIngredientRemoved: (ingName) => dispatch(buguerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(buguerBuilderActions.initIngredients())
     };
 };
 
