@@ -40,7 +40,7 @@ class  BurguerBuilder extends Component {
         }, 0);
 
         return sum > 0;
-    };
+    }
 
    
 
