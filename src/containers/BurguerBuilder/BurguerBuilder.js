@@ -20,7 +20,7 @@ class  BurguerBuilder extends Component {
     }
 
     componentDidMount() {
-        this.props.onInitIngredients() // gettin from redux
+        this.props.onInitIngredients() // getting from redux
     }
 
     updatePurchaseState (ig) {
