@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux'
-import * as buguerBuilderActions from '../../store/actions/index'
+import * as burguerBuilderActions from '../../store/actions/index'
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary'
 import Burguer from '../../components/Burguer/Burguer'
 import BuildControls from '../../components/Burguer/BuildControls/BuildControls'
@@ -47,7 +47,7 @@ class  BurguerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-    
+        this.props.onInitPurchase()
         this.props.history.push('/checkout')
     }
 
@@ -112,9 +112,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdded: (ingName) => dispatch(buguerBuilderActions.addIngredient(ingName)),
-        onIngredientRemoved: (ingName) => dispatch(buguerBuilderActions.removeIngredient(ingName)),
-        onInitIngredients: () => dispatch(buguerBuilderActions.initIngredients())
+        onIngredientAdded: (ingName) => dispatch(burguerBuilderActions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName) => dispatch(burguerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(burguerBuilderActions.initIngredients()),
+        onInitPurchase: () => (dispatch(burguerBuilderActions.purchaseInit()))
     };
 };
 
