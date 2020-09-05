@@ -6,6 +6,7 @@ import Layout from './components/Layout/Layout'
 import BurguerBuilder from './containers/BurguerBuilder/BurguerBuilder'
 import Orders from './containers/Orders/Orders'
 import Auth from './containers/Auth/Auth'
+import Logout from './containers/Auth/logout/Logout'
 
 
 
@@ -19,6 +20,7 @@ class App extends Component {
             <Route path="/checkout" component={Checkout} />
             <Route path="/orders" component={Orders}/>
             <Route path="/auth" component={Auth}/>
+            <Route path="/logout" component={Logout} />
             <Route path="/" component={BurguerBuilder} />
           </Switch>
         </Layout>
