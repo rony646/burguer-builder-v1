@@ -10,7 +10,8 @@ const INGREDIENTS_PRICE =  {
 const intialState ={
     ingredients: null,
     totalPrice: 4,
-    error: false
+    error: false,
+    building: false
 };
 
 const reducer = (state = intialState, action) => {
@@ -22,6 +23,7 @@ const reducer = (state = intialState, action) => {
                     ...state.ingredients,
                     [action.ingredientName]: state.ingredients[action.ingredientName] + 1
                 },
+                building: true,
                 totalPrice: state.totalPrice + INGREDIENTS_PRICE[action.ingredientName]
             };
 
@@ -32,6 +34,7 @@ const reducer = (state = intialState, action) => {
                     ...state.ingredients,
                     [action.ingredientName]: state.ingredients[action.ingredientName] - 1
                 },
+                building: true,
                 totalPrice: state.totalPrice - INGREDIENTS_PRICE[action.ingredientName]
             };
 
@@ -44,6 +47,7 @@ const reducer = (state = intialState, action) => {
                     cheese: action.ingredients.cheese,
                     meat: action.ingredients.meat,
                 },
+                building: false,
                 totalPrice: 4,
                 error: false
             };

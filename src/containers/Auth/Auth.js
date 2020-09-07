@@ -43,6 +43,12 @@ class Auth extends Component {
         isSignUp: true
     }
 
+    componentDidMount() {
+        if(!this.props.buildingBurguer && this.props.authRedirectPath !== '/') {
+            this.props.onSetAuthRedirectPath()
+        };
+    }
+
     checkValidity(value, rules) {
         let isValid = true;
         const mailRegex = new RegExp(/^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$/, "g")
@@ -126,7 +132,7 @@ class Auth extends Component {
         let authRedirect = null
 
         if(this.props.isAuth) {
-            authRedirect = <Redirect to="/" />
+            authRedirect = <Redirect to={this.props.authRedirectPath} />
         }
 
         return(
@@ -151,13 +157,16 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
-        isAuth: state.auth.token !== null
+        isAuth: state.auth.token !== null,
+        buildingBurguer: state.burguerBuilder.building,
+        authRedirectPath: state.auth.authRedirectionPath
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
+        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
+        onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/')) 
     };
 };
 
