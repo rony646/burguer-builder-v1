@@ -19,21 +19,40 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Layout>
+
+    let routes = (
+        <Switch>
+            <Route path="/auth" component={Auth}/>
+            <Route path="/" component={BurguerBuilder} />
+        </Switch>
+    );
+
+    if(this.props.isAuth) {
+        routes = (
           <Switch>
             <Route path="/checkout" component={Checkout} />
             <Route path="/orders" component={Orders}/>
-            <Route path="/auth" component={Auth}/>
             <Route path="/logout" component={Logout} />
             <Route path="/" component={BurguerBuilder} />
-          </Switch>
+        </Switch>
+        )
+    }
+
+    return (
+      <div>
+        <Layout>
+            {routes}
         </Layout>
       </div>
     );
   }
 }
+
+const mapStateToProps = state =>  {
+   return {
+      isAuth: state.auth.token !== null
+   };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -41,4 +60,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(withRouter(App));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

@@ -63,13 +63,14 @@ export const fetchOrdersStart = () => {
     }
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = (userId) => {
 
     return dispatch => {
-        axios.get('/orders.json')
+        axios.get(`/orders.json?orderBy="userId"&equalTo=` + `"${userId}"`)
         .then(response => {
                 if(response.data !== null) {
                 const data = Object.values(response.data)
+                console.log('PEDIDOS SERVIDOR: ', data)
                 dispatch(fechOrdersSuccess(data))
             }
         })
